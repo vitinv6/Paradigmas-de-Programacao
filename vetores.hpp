@@ -30,6 +30,6 @@ double prodEsc(const Vetores& v1, const Vetores& v2);
 double* prodVet(const Vetores& v1, const Vetores& v2);
 double raizQuadrada(double N, double precisao);
 bool dependente(const Vetores& v1, const Vetores& v2);
-
+double distancia(const Vetores& v1, const Vetores& v2);
 
 #endif

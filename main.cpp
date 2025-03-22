@@ -93,12 +93,20 @@ int main() {
             }
         }
         std::cout << "]" << std::endl;  
-        
+      
+    // =========================
+    // Dependência entre vetores
+    // =========================
     if(dependente(v1,v2)){
         std::cout<<"Os vetores são linearmente dependentes";
     }else{
-        std::cout<<"Os vetores não são linearmente dependentes";
+        std::cout<<"Os vetores não são linearmente dependentes"<<std::endl;
     }
+    
+    // =======================
+    // Distância entre vetores
+    // =======================
+    printf("A distância entre os vetores é: %.2f", distancia(v1, v2));
     
     return 0;
 }
