@@ -1,2 +1,2 @@
-# Paradigmas-de-Programa-o
-Projeto
+# Paradigmas-de-Programacao
+## Projeto

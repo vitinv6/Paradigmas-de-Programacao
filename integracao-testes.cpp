@@ -1,7 +1,7 @@
 #include <iostream>
 #include "trig_classe.hpp"
 #include "vetores.hpp"
-/*#include "matrizes.hpp"*/
+#include "base.hpp"
 
 int main(){
     std::cout << "=== Teste de Trigonometria ===" << std::endl;
@@ -73,18 +73,21 @@ int main(){
         std::cout << "Os vetores são linearmente independentes." << std::endl;
     }
 
-/*
-    //Teste da biblioteca matrizes.hpp
+    // Teste da biblioteca base.hpp
     std::cout << "\n== Teste de Matrizes ===" << std::endl;
-    Matriz m1, m2;
-    m1.carregarValores("matriz1.txt");
-    m2.carregarValores("matriz2.txt");
+
+    Matriz m1("matriz1.txt");
+    Matriz m2("matriz2.txt");
+
     Matriz soma = m1 + m2;
     std::cout << "Soma das matrizes:" << std::endl;
-    soma.imprimir();
+    soma.exibir();  // Corrigido de imprimir() para exibir()
+
     std::cout << "Determinante da matriz 1: " << m1.determinante() << std::endl;
+
     std::cout << "Transposta da matriz 1:" << std::endl;
-    m1.transposta().imprimir();*/
+    m1.transposta().exibir();  // Corrigido de imprimir() para exibir()
+
 
     return 0;
 }
