@@ -1,5 +1,5 @@
 # Paradigmas-de-Programacao
-## - Bryan
+## - Bryan Belum
 ## - Guilherme Marinho
-## - Jhoysell
-## - Vitor
+## - Jhoysell Chavarria
+## - Vitor Venturi
