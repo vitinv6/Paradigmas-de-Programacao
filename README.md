@@ -1,2 +1,5 @@
 # Paradigmas-de-Programacao
-## Projeto
+## - Bryan
+## - Guilherme Marinho
+## - Jhoysell
+## - Vitor
