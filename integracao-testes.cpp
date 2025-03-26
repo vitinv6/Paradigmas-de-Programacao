@@ -1,93 +1,203 @@
-#include <iostream>
-#include "trig_classe.hpp"
+#include "trigonometria.hpp"
 #include "vetores.hpp"
-#include "base.hpp"
+#include "matrizes.hpp"
+#include <iostream>
 
-int main(){
-    std::cout << "=== Teste de Trigonometria ===" << std::endl;
-    
+int main() {
+    std::cout << "=== Teste de Trigonometria ===\n" << std::endl;
+
     Trigonometria t1, t2;
     t1.definir_angulo(45);  // Define o ângulo de 45 graus
     t2.definir_angulo(30);  // Define o ângulo de 30 graus
-    
+
     // Testando as funções trigonométricas
-    std::cout << "Seno de 45 graus: " << t1.seno() << std::endl;
-    std::cout << "Cosseno de 45 graus: " << t1.cosseno() << std::endl;
-    std::cout << "Tangente de 45 graus: " << t1.tangente() << std::endl;
-    std::cout << "Cotangente de 45 graus: " << t1.cotangente() << std::endl;
-    std::cout << "Secante de 45 graus: " << t1.secante() << std::endl;
-    std::cout << "Cossecante de 45 graus: " << t1.cossecante() << std::endl;
+    std::cout << "Seno de 45 graus: " << t1.seno() << std::endl;  // Aproximadamente 0.7071
+    std::cout << "Cosseno de 45 graus: " << t1.cosseno() << std::endl;  // Aproximadamente 0.7071
+    std::cout << "Tangente de 45 graus: " << t1.tangente() << std::endl;  // Aproximadamente 1
+    std::cout << "Cotangente de 45 graus: " << t1.cotangente() << std::endl;  // Aproximadamente 1
+    std::cout << "Secante de 45 graus: " << t1.secante() << std::endl;  // Aproximadamente 1.4142
+    std::cout << "Cossecante de 45 graus: " << t1.cossecante() << std::endl;  // Aproximadamente 1.4142
 
     // Testando os operadores sobrecarregados
-    std::cout << "Seno da soma (30 + 45 graus): " << t1 + t2 << std::endl;  // Soma dos senos
-    std::cout << "Seno da diferença (45 - 30 graus): " << t1 - t2 << std::endl;  // Diferença dos senos
-    std::cout << "Cosseno da soma (30 + 45 graus): " << t1 * t2 << std::endl;  // Soma dos cossenos
-    std::cout << "Cosseno da diferença (45 - 30 graus): " << t1 / t2 << std::endl;  // Diferença dos cossenos
-    
+    std::cout << "Seno da soma (30 + 45 graus): " << t1 + t2 << std::endl;  // Aproximadamente seno(75°)
+    std::cout << "Seno da diferença (45 - 30 graus): " << t1 - t2 << std::endl;  // Aproximadamente seno(15°)
+    std::cout << "Cosseno da soma (30 + 45 graus): " << t1 * t2 << std::endl;  // Aproximadamente cosseno(75°)
+    std::cout << "Cosseno da diferença (45 - 30 graus): " << t1 / t2 << std::endl;  // Aproximadamente cosseno(15°)
+
     // Teste de outros ângulos
     t1.definir_angulo(0);
-    std::cout << "Seno de 0 graus: " << t1.seno() << std::endl;
-    std::cout << "Cosseno de 0 graus: " << t1.cosseno() << std::endl;
-    
+    std::cout << "Seno de 0 graus: " << t1.seno() << std::endl;  // 0
+    std::cout << "Cosseno de 0 graus: " << t1.cosseno() << std::endl;  // 1
+
     t1.definir_angulo(90);
-    std::cout << "Seno de 90 graus: " << t1.seno() << std::endl;
-    std::cout << "Cosseno de 90 graus: " << t1.cosseno() << std::endl;
-    std::cout << "Tangente de 90 graus: " << t1.tangente() << std::endl;  // Testando o valor indefinido
+    std::cout << "Seno de 90 graus: " << t1.seno() << std::endl;  // 1
+    std::cout << "Cosseno de 90 graus: " << t1.cosseno() << std::endl;  // 0
+    std::cout << "Tangente de 90 graus: " << t1.tangente() << std::endl;  // Possivelmente 0 ou um valor muito grande
 
     // Teste da biblioteca vetores.hpp
-    std::cout << "\n== Teste de Vetores ===" << std::endl;
+    std::cout << "\n== Teste de Vetores ===\n" << std::endl;
 
-    Vetores v1("vetor1.txt");
-    Vetores v2("vetor2.txt");
+    // =====================
+    // Importação dos dados
+    // =====================
+    const char* arquivo1 = "dados.txt";
+    const char* arquivo2 = "dados2.txt";
 
-    std::cout << "Norma do vetor 1: " << v1.norma() << std::endl; // Exibir a norma de v1
+    // ======================
+    // Carregando nos vetores
+    // ======================
+    Vetores v1(arquivo1);
+    Vetores v2(arquivo2);
 
-    // Teste de soma dos vetores
-    if (v1.getTamanho() == v2.getTamanho()) {
-        double* soma = v1 + v2;
-        std::cout << "Soma dos vetores: [";
-        for (int i = 0; i < v1.getTamanho(); i++) {
-            std::cout << soma[i];
-            if (i < v1.getTamanho() - 1) {
-                std::cout << ", ";
+    // ==========================
+    // Mostrar vetores carregados
+    // ==========================
+    std::cout << "Vetor v1: ";
+    v1.mostrarVetor();
+    std::cout << "Vetor v2: ";
+    v2.mostrarVetor();
+
+    // =================
+    // Norma dos vetores
+    // =================
+    double normav1 = v1.norma();
+    printf("A norma do vetor v1 é igual a: %.2f", normav1);
+    double normav2 =v2.norma();
+    printf("A norma do vetor v1 é igual a: %.2f", normav2);
+
+    // ========================
+    // Soma dos vetores v1 e v2
+    // ========================
+    soma(v1, v2);
+
+    // ==================================
+    // Diferença entre os vetores v1 e v2
+    // ==================================
+    diferenca(v1, v2);
+
+    // ========================================
+    // Produto Escalar entre os vetores v1 e v2
+    // ========================================
+    //std::cout << "Produto Interno entre os vetores v1 e v2: " << std::fixed << std::setprecision(2) << prodEsc(v1, v2) << std::endl;
+    printf("Produto Interno entre os vetores v1 e v2: %.2f", prodEsc(v1, v2));
+
+    // ========================================
+    // Produto Vetorial entre os vetores v1 e v2
+    // ========================================
+    std::cout << "Produto Externo entre os vetores v1 e v2: ";
+    prodVet(v1, v2);
+
+    // ========================
+    // Sobrecarga de Operadores
+    // ========================
+    double* soma = v1 + v2;
+    int tamanho = v1.getTamanho();
+    std::cout << "A soma dos vetores é igual a:" << std::endl;
+        std::cout << "[";
+        for (int i = 0; i < tamanho; i++) {
+            printf("%.2f", soma[i]);
+            if (i < tamanho - 1) {
+                std::cout << ", ";  // Imprime vírgula e espaço
             }
         }
         std::cout << "]" << std::endl;
-        delete[] soma;
-    } else {
-        std::cerr << "Os vetores têm tamanhos diferentes, não é possível somá-los!" << std::endl;
+
+    double* diferenca = v1 - v2;
+    std::cout << "A diferença entre os vetores é igual a:" << std::endl;
+        std::cout << "[";
+        for (int i = 0; i < tamanho; i++) {
+            printf("%.2f", diferenca[i]);
+            if (i < tamanho - 1) {
+                std::cout << ", ";  // Imprime vírgula e espaço
+            }
+        }
+        std::cout << "]" << std::endl;
+
+    double prodEsc = v1 * v2;
+    std::cout << "O produto interno entre os vetores é igual a: ";
+    printf("%.2f", prodEsc);
+    std::cout<<std::endl;
+
+    double* prodVet = v1 ^ v2;
+    std::cout << "O produto externo entre os vetores é igual a:" << std::endl;
+        std::cout << "[";
+        for (int i = 0; i < tamanho; i++) {
+            printf("%.2f", prodVet[i]);
+            if (i < tamanho - 1) {
+                std::cout << ", ";  // Imprime vírgula e espaço
+            }
+        }
+        std::cout << "]" << std::endl;  
+
+    // =========================
+    // Dependência entre vetores
+    // =========================
+    if(dependente(v1,v2)){
+        std::cout<<"Os vetores são linearmente dependentes";
+    }else{
+        std::cout<<"Os vetores não são linearmente dependentes"<<std::endl;
     }
 
-    // Produto interno
-    if (v1.getTamanho() == v2.getTamanho()) {
-        double produtoInterno = v1 * v2;
-        std::cout << "Produto interno: " << produtoInterno << std::endl;
-    } else {
-        std::cerr << "Os vetores têm tamanhos diferentes, não é possível calcular o produto interno!" << std::endl;
-    }
-
-    // Teste de dependência linear
-    if (dependente(v1, v2)) {
-        std::cout << "Os vetores são linearmente dependentes." << std::endl;
-    } else {
-        std::cout << "Os vetores são linearmente independentes." << std::endl;
-    }
+    // =======================
+    // Distância entre vetores
+    // =======================
+    printf("A distância entre os vetores é: %.2f", distancia(v1, v2));
 
     // Teste da biblioteca base.hpp
-    std::cout << "\n== Teste de Matrizes ===" << std::endl;
+    std::cout << "\n== Teste de Matrizes ===\n" << std::endl;
+    
+    // Teste da biblioteca base.hpp
+  std::cout << "\n== Teste de Matrizes ===\n" << std::endl;
 
-    Matriz m1("matriz1.txt");
-    Matriz m2("matriz2.txt");
-
-    Matriz soma = m1 + m2;
-    std::cout << "Soma das matrizes:" << std::endl;
-    soma.exibir();  // Corrigido de imprimir() para exibir()
-
-    std::cout << "Determinante da matriz 1: " << m1.determinante() << std::endl;
-
-    std::cout << "Transposta da matriz 1:" << std::endl;
-    m1.transposta().exibir();  // Corrigido de imprimir() para exibir()
-
-
+  // Cria matrizes vazias
+    Matriz A(3, 3);
+    Matriz B(3, 3);
+    
+    // Carrega matrizes de arquivos
+    A.carregar("matriza.txt");
+    B.carregar("matrizb.txt");
+    
+    std::cout << "Matriz A:\n" << A;
+    std::cout << "\nMatriz B:\n" << B;
+    
+    // Testa transposta
+    Matriz At = A.calcular_transposta();
+    std::cout << "\nTransposta de A:\n" << At;
+    
+    // Testa determinante
+    std::cout << "\nDeterminante de A: " << A.calcular_determinante() << "\n";
+    
+    // Testa inversa (se possível)
+    if (A.calcular_determinante() != 0) {
+        Matriz invA = A.calcular_inversa();
+        std::cout << "\nInversa de A:\n" << invA;
+    } else {
+        std::cout << "\nA matriz A não possui inversa (determinante zero).\n";
+    }
+    
+    // Testa autovalor/autovetor
+    double autovalor;
+    double autovetor[3];
+    A.calcular_autovalor_autovetor(autovalor, autovetor);
+    std::cout << "\nAutovalor dominante de A: " << autovalor << "\n";
+    std::cout << "Autovetor correspondente:\n";
+    for (int i = 0; i < 3; ++i) {
+        std::cout << autovetor[i] << "\n";
+    }
+    
+    // Testa operações
+    Matriz C = A + B;
+    std::cout << "\nA + B:\n" << C;
+    
+    Matriz D = A * 2.5;
+    std::cout << "\nA * 2.5:\n" << D;
+    
+    Matriz E = A * B;
+    std::cout << "\nA * B:\n" << E;
+    
+    // Salva matriz resultante
+    C.salvar("matriz_resultante.txt");
+    std::cout << "\nMatriz resultante salva em 'matriz_resultante.txt'\n";
+  
     return 0;
 }

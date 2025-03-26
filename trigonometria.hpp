@@ -2,7 +2,6 @@
 #define TRIG_CLASSE_HPP
 
 #include <iostream>
-#include <cmath>
 
 class Trigonometria {
 private:
@@ -10,6 +9,11 @@ private:
     double angulo_radianos;
 
     void atualizar_radianos();
+
+    // Funções trigonométricas implementadas manualmente:
+    double seno_aproximado(double radianos) const;
+    double cosseno_aproximado(double radianos) const;
+    double tangente_aproximada(double radianos) const;
 
 public:
     // Construtor:
