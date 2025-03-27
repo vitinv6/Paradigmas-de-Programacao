@@ -1,4 +1,4 @@
-# Projeto - Vetores e Matrizes
+# Projeto - Paradigmas de Programação
 
 Este projeto envolve a manipulação de vetores e matrizes, além de operações trigonométricas. O código contém três classes principais: `Trigonometria`, `Vetores` e `Matrizes`, que são utilizadas para realizar cálculos como soma, subtração, multiplicação, produto escalar, e outras operações matemáticas.
 
