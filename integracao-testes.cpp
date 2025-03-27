@@ -198,6 +198,6 @@ int main() {
     // Salva matriz resultante
     C.salvar("matriz_resultante.txt");
     std::cout << "\nMatriz resultante salva em 'matriz_resultante.txt'\n";
-  
+
     return 0;
 }
