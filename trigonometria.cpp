@@ -1,4 +1,4 @@
-#include "trig_classe.hpp"
+#include "trigonometria.hpp"
 #include <cmath>  // Para usar a constante M_PI se precisar
 
 void Trigonometria::atualizar_radianos() {
