@@ -1,16 +1,25 @@
 #include "vetores.hpp"
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 
 
 // =====================
 // Construtor e Destrutor
 // =====================
-Vetores::Vetores(const char*& arquivo) {
+Vetores::Vetores(const char* arquivo) {
     double* numeros = carregarValores(arquivo);
     if (numeros) {
         setArray(numeros);
         delete[] numeros; // Libera a memória temporária
+    } else {
+        std::cerr << "Erro ao carregar valores!" << std::endl;
+    }
+}
+
+Vetores::Vetores(const double* arr, int tamanho) {
+    if (arr) {
+        setArray(arr, tamanho);
     } else {
         std::cerr << "Erro ao carregar valores!" << std::endl;
     }
@@ -23,7 +32,14 @@ Vetores::~Vetores() {
 // =====================
 // Métodos de Manipulação
 // =====================
-void Vetores::setArray(double* numeros) {
+void Vetores::setArray(const double* numeros) {
+    array = new double[tamanho]; 
+    for (int i = 0; i < tamanho; i++) {
+        array[i] = numeros[i];
+    }
+}
+
+void Vetores::setArray(const double* numeros, int tamanho) {
     array = new double[tamanho]; 
     for (int i = 0; i < tamanho; i++) {
         array[i] = numeros[i];
@@ -42,14 +58,10 @@ int Vetores::getTamanho() const{
     return tamanho;
 }
 
-void Vetores::mostrarVetor() {
-    if (array == nullptr || tamanho <= 0) {
-        std::cout << "Vetor vazio!" << std::endl;
-        return;
-    }
+void Vetores::mostrarVetor() const{
 
     std::cout << "[";
-    for (int i = 0; i < tamanho; i++) {
+    for (int i = 0; i < getTamanho(); i++) {
         std::cout << array[i];
         if (i < tamanho - 1) {
             std::cout << ", ";  // Imprime vírgula e espaço
@@ -129,6 +141,9 @@ double Vetores::norma() {
         norma += array[i]*array[i];
     }
     norma = raizQuadrada(norma);
+    
+    std::cout<<std::fixed<<std::setprecision(2)<<norma<<std::endl;
+    
     return norma;
 }
 
@@ -136,7 +151,7 @@ double Vetores::norma() {
 // =====================
 // Funções Globais
 // =====================
-double* soma(const Vetores& v1, const Vetores& v2) {
+Vetores soma(const Vetores& v1, const Vetores& v2) {
     int tamanho = v1.getTamanho();
     double* soma = new double[tamanho];
 
@@ -144,22 +159,24 @@ double* soma(const Vetores& v1, const Vetores& v2) {
         for (int i = 0; i < tamanho; i++) {
             soma[i] = v1.getValor(i) + v2.getValor(i);
         }
-
-        std::cout << "A soma dos vetores é igual a:" << std::endl;
-        std::cout << "[";
-        for (int i = 0; i < tamanho; i++) {
-            printf("%.2f", soma[i]);
-            if (i < tamanho - 1) {
-                std::cout << ", ";  // Imprime vírgula e espaço
-            }
-        }
-        std::cout << "]" << std::endl;
     }
+    
+    Vetores res(soma, tamanho);
+    
+    std::cout << "A soma dos vetores é igual a:" << std::endl;
+    std::cout << "[";
+    for (int i = 0; i < tamanho; i++) {
+        printf("%.2f", res.getValor(i));
+        if (i < tamanho - 1) {
+            std::cout << ", ";  // Imprime vírgula e espaço
+        }
+    }
+    std::cout << "]" << std::endl;
 
-    return soma;
+    return res;
 }
 
-double* diferenca(const Vetores& v1, const Vetores& v2) {
+Vetores diferenca(const Vetores& v1, const Vetores& v2) {
     int tamanho = v1.getTamanho();
     double* diferenca = new double[tamanho];
 
@@ -167,19 +184,21 @@ double* diferenca(const Vetores& v1, const Vetores& v2) {
         for (int i = 0; i < tamanho; i++) {
             diferenca[i] = v1.getValor(i) - v2.getValor(i);
         }
-
-        std::cout << "A diferenca dos vetores é igual a:" << std::endl;
-        std::cout << "[";
-        for (int i = 0; i < tamanho; i++) {
-            printf("%.2f", diferenca[i]);
-            if (i < tamanho - 1) {
-                std::cout << ", "; 
-            }
-        }
-        std::cout << "]" << std::endl;
     }
+    
+    Vetores res(diferenca, tamanho);
+    
+    std::cout << "A diferenca dos vetores é igual a:" << std::endl;
+    std::cout << "[";
+    for (int i = 0; i < tamanho; i++) {
+        printf("%.2f", res.getValor(i));
+        if (i < tamanho - 1) {
+            std::cout << ", "; 
+        }
+    }
+    std::cout << "]" << std::endl;
 
-    return diferenca;
+    return res;
 }
 
 double prodEsc(const Vetores& v1, const Vetores& v2){
@@ -191,30 +210,36 @@ double prodEsc(const Vetores& v1, const Vetores& v2){
             prodEsc += v1.getValor(i) * v2.getValor(i);
         }
     }
+    std::cout<<"O produto interno entre os vetores é igual a: "<<prodEsc<<std::endl;
     return prodEsc;
 }
 
-double* prodVet(const Vetores& v1, const Vetores& v2){
+
+Vetores prodVet(const Vetores& v1, const Vetores& v2){
     int tamanho = v1.getTamanho();
     double* prodVet = new double[tamanho];
 
     if (v1.getTamanho() == v2.getTamanho()) {
-        for (int i = 0; i < tamanho; i++) {
-            prodVet[i] = v1.getValor(i) * v2.getValor(i);
-        }
+        prodVet[0] = v1.getValor(1) * v2.getValor(2) - v1.getValor(2) * v2.getValor(1);
+        prodVet[1] = v1.getValor(2) * v2.getValor(0) - v1.getValor(0) * v2.getValor(2);
+        prodVet[2] = v1.getValor(0) * v2.getValor(1) - v1.getValor(1) * v2.getValor(0);
     }
+    
+    Vetores res(prodVet, tamanho);
+    
+    std::cout << "A produto externo entre os vetores é igual a:" << std::endl;
     std::cout << "[";
     for (int i = 0; i < tamanho; i++) {
-            printf("%.2f", prodVet[i]);
+            printf("%.2f", res.getValor(i));
             if (i < tamanho - 1) {
                 std::cout << ", ";
             }
         }
         std::cout << "]" << std::endl;
-    return prodVet;
+    return res;
 }
 
-double* operator+(const Vetores& v1, const Vetores& v2) {
+Vetores operator+(const Vetores& v1, const Vetores& v2) {
     int tamanho = v1.getTamanho();
     double* soma = new double[tamanho];
 
@@ -222,13 +247,23 @@ double* operator+(const Vetores& v1, const Vetores& v2) {
         for (int i = 0; i < tamanho; i++) {
             soma[i] = v1.getValor(i) + v2.getValor(i);
         }
-
     }
+    
+    Vetores res(soma, tamanho);
+    
+    std::cout << "[";
+    for (int i = 0; i < tamanho; i++) {
+            printf("%.2f", res.getValor(i));
+            if (i < tamanho - 1) {
+                std::cout << ", ";
+            }
+    }
+    std::cout << "]" << std::endl;
 
-    return soma;
+    return res;
 }
 
-double* operator-(const Vetores& v1, const Vetores& v2) {
+Vetores operator-(const Vetores& v1, const Vetores& v2) {
     int tamanho = v1.getTamanho();
     double* diferenca = new double[tamanho];
 
@@ -236,10 +271,20 @@ double* operator-(const Vetores& v1, const Vetores& v2) {
         for (int i = 0; i < tamanho; i++) {
             diferenca[i] = v1.getValor(i) - v2.getValor(i);
         }
-
     }
+    
+    Vetores res(diferenca, tamanho);
+    
+    std::cout << "[";
+    for (int i = 0; i < tamanho; i++) {
+            printf("%.2f", res.getValor(i));
+            if (i < tamanho - 1) {
+                std::cout << ", ";
+            }
+    }
+    std::cout << "]" << std::endl;
 
-    return diferenca;
+    return res;
 }
 
 double operator*(const Vetores& v1, const Vetores& v2) {
@@ -251,19 +296,32 @@ double operator*(const Vetores& v1, const Vetores& v2) {
             prodEsc += v1.getValor(i) * v2.getValor(i);
         }
     }
+    std::cout << "O produto interno entre os vetores com sobrecarga de operador é igual a: " << prodEsc <<std::endl;
     return prodEsc;
 }
 
-double* operator^(const Vetores& v1, const Vetores& v2) {
+Vetores operator^(const Vetores& v1, const Vetores& v2) {
     int tamanho = v1.getTamanho();
     double* prodVet = new double[tamanho];
 
     if (v1.getTamanho() == v2.getTamanho()) {
-        for (int i = 0; i < tamanho; i++) {
-            prodVet[i] = v1.getValor(i) * v2.getValor(i);
-        }
+        prodVet[0] = v1.getValor(1) * v2.getValor(2) - v1.getValor(2) * v2.getValor(1);
+        prodVet[1] = v1.getValor(2) * v2.getValor(0) - v1.getValor(0) * v2.getValor(2);
+        prodVet[2] = v1.getValor(0) * v2.getValor(1) - v1.getValor(1) * v2.getValor(0);
     }
-    return prodVet;
+    
+    Vetores res(prodVet, tamanho);
+    
+    std::cout << "A produto externo entre os vetores com sobrecarga é igual a:" << std::endl;
+    std::cout << "[";
+    for (int i = 0; i < tamanho; i++) {
+            printf("%.2f", res.getValor(i));
+            if (i < tamanho - 1) {
+                std::cout << ", ";
+            }
+        }
+    std::cout << "]" << std::endl;
+    return res;
 }
 
 bool dependente(const Vetores& v1, const Vetores& v2) {
@@ -275,9 +333,11 @@ bool dependente(const Vetores& v1, const Vetores& v2) {
     double k = v1.getValor(0) / v2.getValor(0); // Inicializa k com base no primeiro elemento
     for (int i = 1; i < tamanho; i++) {
         if (v1.getValor(i) * k != v2.getValor(i)) {
+            std::cout<<"Os vetores são linearmente independentes"<<std::endl;
             return false; // Se não for múltiplo, os vetores são independentes
         }
     }
+    std::cout<<"Os vetores são linearmente dependentes"<<std::endl;
     return true; // Se todos os elementos forem múltiplos, os vetores são dependentes
 }
 
